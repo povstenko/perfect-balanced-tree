@@ -1,5 +1,5 @@
 # Checking if a binary tree is a perfect binary tree in Python
-from binarytree import Node, tree, bst, heap
+from binarytree import Node, tree, bst, heap, build
 
 
 # Calculate the depth
@@ -46,13 +46,74 @@ def enterVals(height, lvl=0, n=1):
     return vals
 
 
-height = int(input("Enter height of Tree: "))
-vals = enterVals(height)
-root = perfectTree(0, vals)
+# This function traverse the skewed binary tree and
+# stores its nodes pointers in vector nodes[]
+def storeBSTNodes(root, nodes):
 
-if (is_perfect(root, calculateDepth(root))):
-    print("The tree is a perfect binary tree")
-else:
-    print("The tree is not a perfect binary tree")
+    # Base case
+    if not root:
+        return
 
-print(root)
+    # Store nodes in Inorder (which is sorted
+    # order for BST)
+    storeBSTNodes(root.left, nodes)
+    nodes.append(root)
+    storeBSTNodes(root.right, nodes)
+
+
+# Recursive function to construct binary tree
+def balanceTreeUtil(nodes, start, end):
+
+    # base case
+    if start > end:
+        return None
+
+    # Get the middle element and make it root
+    mid = (start+end)//2
+    node = nodes[mid]
+
+    # Using index in Inorder traversal, construct
+    # left and right subtress
+    node.left = balanceTreeUtil(nodes, start, mid-1)
+    node.right = balanceTreeUtil(nodes, mid+1, end)
+    return node
+
+
+# This functions converts an unbalanced BST to
+# a balanced BST
+def balanceTree(root):
+
+    # Store nodes of given BST in sorted order
+    nodes = []
+    storeBSTNodes(root, nodes)
+    
+    # Constucts BST from nodes[]
+    n = len(nodes)
+    return balanceTreeUtil(nodes, 0, n-1)
+
+
+# Driver code
+if __name__ == '__main__':
+    height = int(input("Enter height of Tree: "))
+    vals = enterVals(height)
+    root = perfectTree(0, vals)
+    root.left.left = Node(0)
+    root.left.left.left = Node(0)
+    root.left.left.left.left = Node(0)
+    root.left.left.left.left.left = Node(0)
+
+    if (is_perfect(root, calculateDepth(root))):
+        print("The tree is a perfect binary tree")
+    else:
+        print("The tree is not a perfect binary tree")
+
+    print(root)
+
+    root = balanceTree(root)
+    
+    if (is_perfect(root, calculateDepth(root))):
+        print("The tree is a perfect binary tree")
+    else:
+        print("The tree is not a perfect binary tree")
+    print(root)
+
