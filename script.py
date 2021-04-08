@@ -36,21 +36,19 @@ def perfectTree(i, vals):
                     right=perfectTree((i+1)*2, vals))
 
 
-# root = None
-# root = Node(1)
-# root.left = Node(2)
-# root.right = Node(3)
-# root.left.left = Node(4)
-# root.left.right = Node(5)
-# root.right.left = Node(6)
-# root.right.right = Node(7)
+def enterVals(height, lvl=0, n=1):
+    vals = []
+    for i in range(lvl, height):
+        print(f"level: {lvl}, nodes: {n}")
+        for i in range(n):
+            vals.append(int(input(f"{i}: ")))
+        n = n*2
+    return vals
 
-# root = tree(height=3, is_perfect=True)
 
-vals = [1, 2, 3, 4, 5, 6, 7]
+height = int(input("Enter height of Tree: "))
+vals = enterVals(height)
 root = perfectTree(0, vals)
-
-print(f"Depth of the tree = {calculateDepth(root)}")
 
 if (is_perfect(root, calculateDepth(root))):
     print("The tree is a perfect binary tree")
