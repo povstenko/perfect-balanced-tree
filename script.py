@@ -54,8 +54,7 @@ def storeBSTNodes(root, nodes):
     if not root:
         return
 
-    # Store nodes in Inorder (which is sorted
-    # order for BST)
+    # Store nodes in Inorder
     storeBSTNodes(root.left, nodes)
     nodes.append(root)
     storeBSTNodes(root.right, nodes)
@@ -83,9 +82,13 @@ def balanceTreeUtil(nodes, start, end):
 # a balanced BST
 def balanceTree(root):
 
-    # Store nodes of given BST in sorted order
+    # Store nodes of given BST
     nodes = []
     storeBSTNodes(root, nodes)
+    
+    # Sort nodes
+    vals = [n.value for n in nodes]
+    nodes = [Node(val) for val in sorted(vals)]
     
     # Constucts BST from nodes[]
     n = len(nodes)
@@ -97,10 +100,10 @@ if __name__ == '__main__':
     height = int(input("Enter height of Tree: "))
     vals = enterVals(height)
     root = perfectTree(0, vals)
-    root.left.left = Node(0)
-    root.left.left.left = Node(0)
-    root.left.left.left.left = Node(0)
-    root.left.left.left.left.left = Node(0)
+    root.left.left = Node(1)
+    root.left.left.left = Node(2)
+    root.left.left.left.left = Node(3)
+    root.left.left.left.left.left = Node(4)
 
     if (is_perfect(root, calculateDepth(root))):
         print("The tree is a perfect binary tree")
@@ -110,10 +113,9 @@ if __name__ == '__main__':
     print(root)
 
     root = balanceTree(root)
-    
+
     if (is_perfect(root, calculateDepth(root))):
         print("The tree is a perfect binary tree")
     else:
         print("The tree is not a perfect binary tree")
     print(root)
-
