@@ -46,6 +46,14 @@ def enterVals(height, lvl=0, n=1):
     return vals
 
 
+def printTree(root):
+    if (is_perfect(root, calculateDepth(root))):
+        print("The tree is a Perfect Binary Tree")
+    else:
+        print("The tree is NOT a Perfect Binary Tree")
+    print(root)
+
+
 # This function traverse the skewed binary tree and
 # stores its nodes pointers in vector nodes[]
 def storeBSTNodes(root, nodes):
@@ -85,11 +93,11 @@ def balanceTree(root):
     # Store nodes of given BST
     nodes = []
     storeBSTNodes(root, nodes)
-    
+
     # Sort nodes
     vals = [n.value for n in nodes]
     nodes = [Node(val) for val in sorted(vals)]
-    
+
     # Constucts BST from nodes[]
     n = len(nodes)
     return balanceTreeUtil(nodes, 0, n-1)
@@ -100,22 +108,82 @@ if __name__ == '__main__':
     height = int(input("Enter height of Tree: "))
     vals = enterVals(height)
     root = perfectTree(0, vals)
-    root.left.left = Node(1)
-    root.left.left.left = Node(2)
-    root.left.left.left.left = Node(3)
-    root.left.left.left.left.left = Node(4)
 
-    if (is_perfect(root, calculateDepth(root))):
-        print("The tree is a perfect binary tree")
-    else:
-        print("The tree is not a perfect binary tree")
+    printTree(root)
 
-    print(root)
+    
+    
+    opt = 1
+    while opt !=0:
+        print("\n---------Options---------")
+        print("1-add node,\n2-delete node,\n3-show tree,\n4-balance tree\n0-exit")
+        opt = int(input("Select option: "))
+        
+        if opt == 1:
+            #add
+            print("\n---Add Node")
+            root.pprint(index=True)
+            idx = int(input("Enter index of node:"))
+            
+            try:
+                root[idx]
+                if root[idx].left == None and root[idx].right == None:
+                    #left right
+                    print("1-add left node,\n2-add right node\n0-cancel")
+                    opt_add = int(input("Select option: "))
+                    
+                    if opt_add == 1:
+                        #left
+                        print("\n---Add Left Node")
+                        val = int(input("Enter value: "))
+                        root[idx].left = Node(val)
+                        print(root)
+                    elif opt_add == 2:
+                        #right
+                        print("\n---Add Left Node")
+                        val = int(input("Enter value: "))
+                        root[idx].right = Node(val)
+                        print(root)
+                    elif opt_add == 0:
+                        print("\n---Canceled")
+                        #cancel
+                        continue
+                    else:
+                        print("Wrong option\n")
+                        continue
+                    
+                elif root[idx].left == None:
+                    print("left")
+                elif root[idx].right == None:
+                    print("right")
+                else:
+                    print("Can`t add node")
+            except:
+                print("Wrong index\n")
 
-    root = balanceTree(root)
-
-    if (is_perfect(root, calculateDepth(root))):
-        print("The tree is a perfect binary tree")
-    else:
-        print("The tree is not a perfect binary tree")
-    print(root)
+        elif opt == 2:
+            #delete
+            print("\n---Delete Node")
+            root.pprint(index=True)
+            idx = int(input("Enter index of node:"))
+            try:
+                del root[idx]
+                root.pprint(index=True)
+            except:
+                print("Wrong index\n")
+        elif opt == 3:
+            #show
+            print("\n---Show Tree")
+            print(root)
+        elif opt == 4:
+            #balance
+            print("\n---Balance Tree")
+            root = balanceTree(root)
+            print(root)
+        elif opt == 0:
+            #exit
+            print("\n---Exit\n")
+            break
+        else:
+            #nothing
+            print("---Wrong option, try again\n")
