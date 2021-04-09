@@ -41,7 +41,7 @@ def enterVals(height, lvl=0, n=1):
     for i in range(lvl, height):
         print(f"level: {lvl}, nodes: {n}")
         for i in range(n):
-            vals.append(int(input(f"{i}: ")))
+            vals.append(int(input(f"node {i}: ")))
         n = n*2
     return vals
 
@@ -105,13 +105,12 @@ def balanceTree(root):
 
 # Driver code
 if __name__ == '__main__':
+    print("\n---------Create Perfect Tree---------")
     height = int(input("Enter height of Tree: "))
     vals = enterVals(height)
     root = perfectTree(0, vals)
 
     printTree(root)
-
-    
     
     opt = 1
     while opt !=0:
@@ -140,7 +139,7 @@ if __name__ == '__main__':
                         print(root)
                     elif opt_add == 2:
                         #right
-                        print("\n---Add Left Node")
+                        print("\n---Add Right Node")
                         val = int(input("Enter value: "))
                         root[idx].right = Node(val)
                         print(root)
@@ -153,9 +152,41 @@ if __name__ == '__main__':
                         continue
                     
                 elif root[idx].left == None:
-                    print("left")
+                    #left
+                    print("1-add left node,\n0-cancel")
+                    opt_add = int(input("Select option: "))
+                    
+                    if opt_add == 1:
+                        #left
+                        print("\n---Add Left Node")
+                        val = int(input("Enter value: "))
+                        root[idx].left = Node(val)
+                        print(root)
+                    elif opt_add == 0:
+                        print("\n---Canceled")
+                        #cancel
+                        continue
+                    else:
+                        print("Wrong option\n")
+                        continue
                 elif root[idx].right == None:
-                    print("right")
+                    #right
+                    print("1-add right node,\n0-cancel")
+                    opt_add = int(input("Select option: "))
+                    
+                    if opt_add == 1:
+                        #left
+                        print("\n---Add Right Node")
+                        val = int(input("Enter value: "))
+                        root[idx].right = Node(val)
+                        print(root)
+                    elif opt_add == 0:
+                        print("\n---Canceled")
+                        #cancel
+                        continue
+                    else:
+                        print("Wrong option\n")
+                        continue
                 else:
                     print("Can`t add node")
             except:
